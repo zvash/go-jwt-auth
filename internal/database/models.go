@@ -7,7 +7,16 @@ package database
 import (
 	"database/sql"
 	"time"
+
+	"github.com/google/uuid"
 )
+
+type OauthClient struct {
+	ID       int32
+	ClientID uuid.UUID
+	Secret   string
+	Domain   string
+}
 
 type User struct {
 	ID         int32
