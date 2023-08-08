@@ -3,9 +3,9 @@ package resources
 import "github.com/zvash/go-jwt-auth/internal/database"
 
 type User struct {
-	ID    int32  `responsemaker:"id"`
-	Name  string `responsemaker:"name"`
-	Email string `responsemaker:"email"`
+	ID    int32  `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
 
 func (u *User) FillWithDbUser(dbUser database.User) {
