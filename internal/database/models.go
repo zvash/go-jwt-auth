@@ -6,10 +6,21 @@ package database
 
 import (
 	"database/sql"
+	"encoding/json"
 	"time"
 
 	"github.com/google/uuid"
 )
+
+type Oauth2Token struct {
+	ID        int64
+	CreatedAt time.Time
+	ExpiresAt time.Time
+	Code      string
+	Access    string
+	Refresh   string
+	Data      json.RawMessage
+}
 
 type OauthClient struct {
 	ID       int32

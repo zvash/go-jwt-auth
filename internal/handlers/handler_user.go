@@ -50,3 +50,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	user.FillWithDbUser(dbUser)
 	responsemaker.RespondWithJSON(w, 201, user)
 }
+
+func Authenticated(w http.ResponseWriter, r *http.Request, dbUser database.User) {
+	user := resources.User{}
+	user.FillWithDbUser(dbUser)
+	responsemaker.RespondWithJSON(w, 200, user)
+}

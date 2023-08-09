@@ -6,6 +6,7 @@ import (
 	"github.com/zvash/go-jwt-auth/internal/database"
 	"github.com/zvash/go-jwt-auth/internal/responsemaker"
 	"net/http"
+	"strconv"
 )
 
 var app *config.AppConfig
@@ -23,7 +24,18 @@ func Auth(handler authedHandler) http.HandlerFunc {
 		//	responseWithError(w, 403, fmt.Sprintf("Auth error: %v", err))
 		//	return
 		//}
-		dbUser, err := app.DB.GetUserByUsername(r.Context(), "test")
+		info, err := app.AuthServer.ValidationBearerToken(r)
+		if err != nil {
+			responsemaker.ResponseWithError(w, 403, fmt.Sprintf("Unathorized"))
+			return
+		}
+		userId, err := strconv.Atoi(info.GetUserID())
+		if err != nil {
+			fmt.Printf("Invalid user id: %v", err)
+			responsemaker.ResponseWithError(w, 403, fmt.Sprintf("Invalid UserId"))
+			return
+		}
+		dbUser, err := app.DB.GetUserById(r.Context(), int32(userId))
 		if err != nil {
 			responsemaker.ResponseWithError(w, 400, fmt.Sprintf("Couldn't get user: %v", err))
 			return
